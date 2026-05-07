@@ -580,7 +580,7 @@ function ParticleNumber({ number, color }) {
       delay: Math.random() * 0.9,
       size: 6 + Math.random() * 9,
       color: googleColors[i % googleColors.length],
-      glyph: ["✦", "◆", "●", "G", "O", "L", "E", "A", "M","N",,"I",, "◇"][i % 10],
+      glyph: ["✦", "◆", "●", "G", "O", "L", "E", "A", "M","N","I", "◇"][i % 10],
     }));
   }, [number]);
 
@@ -679,8 +679,12 @@ export default function App() {
 
         {done && (
           <div className="finalOverlay">
-            <h1>Google I/O</h1>
-            <p>2026</p>
+            <div className="finalContent">
+               <h1 className="googleIoTitle">
+                 <span>Google</span> <span>I/O</span>
+               </h1>
+               <p className="finalYear">2026</p>
+            </div>
           </div>
         )}
       </section>
@@ -798,21 +802,21 @@ export default function App() {
     }
 
         .sun .layerB {
-      position: absolute;
-      inset: 38%;
-      border-radius: 50%;
-      background:
-        radial-gradient(
-          circle at center,
-          rgba(255, 220, 120, 0.22),
-          rgba(255, 220, 120, 0.06) 45%,
-          transparent 70%
-        );
+          position: absolute;
+          inset: 38%;
+          border-radius: 50%;
+          background:
+            radial-gradient(
+              circle at center,
+              rgba(255, 220, 120, 0.22),
+              rgba(255, 220, 120, 0.06) 45%,
+              transparent 70%
+            );
 
-      filter: blur(24px);
-      animation: sunPulse 4s ease-in-out infinite alternate;
-      opacity: 0.22;
-    }
+          filter: blur(24px);
+          animation: sunPulse 4s ease-in-out infinite alternate;
+          opacity: 0.22;
+        }
 
         .moon .layerA {
           background-image: radial-gradient(circle, rgba(255,255,255,0.9) 1px, transparent 2px);
@@ -1010,54 +1014,66 @@ export default function App() {
           position: absolute;
           inset: 0;
           z-index: 80;
-          background: rgba(0,0,0,0.85);
-          backdrop-filter: blur(20px);
+          background: rgba(0,0,0,0.9);
+          backdrop-filter: blur(30px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          animation: finalOverlayFadeIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .finalContent {
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: center;
-          animation: fadeIn 1200ms cubic-bezier(0.19, 1, 0.22, 1) forwards;
-          text-align: center;
+          transform: translateY(-20px);
         }
 
-        .finalOverlay h1 {
+        .googleIoTitle {
           margin: 0;
-          padding: 0 20px;
-          font-size: clamp(60px, 10vw, 150px);
+          padding: 0;
+          font-size: clamp(80px, 12vw, 180px);
           font-weight: 900;
-          letter-spacing: -0.02em;
-          white-space: nowrap;
-          overflow: visible;
-
+          letter-spacing: -0.04em;
+          line-height: 0.9;
+          display: flex;
+          gap: 0.1em;
+          filter: drop-shadow(0 0 40px rgba(255,255,255,0.1));
+          
           background: linear-gradient(
-            90deg,
-            #4285F4 0%,
-            #EA4335 25%,
+            to right,
+            #4285F4 10%,
+            #EA4335 30%,
             #FBBC05 50%,
-            #34A853 75%,
-            #4285F4 100%
+            #34A853 70%,
+            #4285F4 90%
           );
-          background-size: 300% 100%;
+          background-size: 200% auto;
           -webkit-background-clip: text;
           background-clip: text;
           color: transparent;
-
-          text-shadow:
-            0 0 30px rgba(66,133,244,0.3),
-            0 0 50px rgba(234,67,53,0.2);
-
-          animation: googleGradientFlow 8s linear infinite;
+          animation: googleGradientFlow 5s linear infinite;
         }
 
-        .finalOverlay p {
+        .finalYear {
           margin: 10px 0 0 0;
-          color: rgba(255,255,255,0.95);
-          font-size: clamp(32px, 4vw, 60px);
-          font-weight: 800;
-          letter-spacing: 0.2em;
+          color: #fff;
+          font-size: clamp(40px, 6vw, 90px);
+          font-weight: 300;
+          letter-spacing: 0.4em;
           text-transform: uppercase;
-          text-shadow: 0 0 20px rgba(255,255,255,0.4);
-          animation: finalYearPulse 3s ease-in-out infinite alternate;
+          opacity: 0.9;
+          animation: yearEntry 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes finalOverlayFadeIn {
+          from { opacity: 0; backdrop-filter: blur(0px); }
+          to { opacity: 1; backdrop-filter: blur(30px); }
+        }
+
+        @keyframes yearEntry {
+          from { opacity: 0; transform: translateY(20px); letter-spacing: 1em; }
+          to { opacity: 0.9; transform: translateY(0); letter-spacing: 0.4em; }
         }
 
         @keyframes mapDrift {
@@ -1143,43 +1159,14 @@ export default function App() {
           to { transform: translate3d(-28px, -28px, 0); }
         }
 
-
         @keyframes sunPulse {
-        from {
-          transform: scale(0.92);
-          opacity: 0.12;
+          from { transform: scale(0.92); opacity: 0.12; }
+          to { transform: scale(1.06); opacity: 0.24; }
         }
 
-        to {
-          transform: scale(1.06);
-          opacity: 0.24;
-        }
-      }
-
-      @keyframes googleGradientFlow {
-        0% {
-          background-position: 0% 50%;
-        }
-
-        100% {
-          background-position: 100% 50%;
-        }
-      }
-
-      @keyframes finalYearPulse {
-        from {
-          opacity: 0.9;
-          transform: scale(0.98);
-        }
-
-        to {
-          opacity: 1;
-          transform: scale(1.02);
-        }
-      }
-        @keyframes fadeIn {
-          from { opacity: 0; transform: scale(1.08); }
-          to { opacity: 1; transform: scale(1); }
+        @keyframes googleGradientFlow {
+          0% { background-position: 0% 50%; }
+          100% { background-position: 200% 50%; }
         }
       `}</style>
     </main>
